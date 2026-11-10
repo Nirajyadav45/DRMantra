@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dr Mantra growth plan</title>
+<link href="https://fonts.googleapis.com/css2?family=Volkhov:wght@700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" rel="stylesheet">
+<style>
+html,body{margin:0;height:100%;overflow:hidden;background:#eef3f7;font-family:'Poppins',sans-serif}
+.dm-frame{position:absolute;left:50%;top:50%;width:680px;height:382.5px;background:#fff;overflow:hidden;color:#181e4b;transform-origin:center center}
+.dm-s{position:absolute;inset:0;opacity:0;visibility:hidden;transform:scale(.97);transition:opacity .6s ease-out,transform .6s ease-out,visibility .6s}
+.dm-s.dm-show{opacity:1;visibility:visible;transform:none}
+.dm-num{position:absolute;right:20px;bottom:10px;font-size:11px;color:#5e6282}
+.dm-hint{position:absolute;left:5%;bottom:10px;font-size:11px;color:#5e6282}
+.dm-g{position:absolute;border-radius:50%;aspect-ratio:1}
+.dm-in{opacity:0}
+.dm-on .dm-in{animation:dmUp .8s ease-out forwards}
+.dm-on .dm-left{animation:dmLeft .9s ease-out .3s forwards}
+.dm-on .dm-right{animation:dmRight .9s ease-out .3s forwards}
+.dm-on .dm-pop{animation:dmPop .6s ease-out forwards}
+.dm-on .dm-spin{animation:dmSpin .8s ease-out forwards}
+.dm-on .dm-drop{animation:dmDrop .6s ease-out forwards}
+.dm-rise,.dm-col{opacity:0;transform-origin:50% 100%}
+.dm-on .dm-rise{animation:dmRise .8s ease-out forwards}
+.dm-on .dm-col{animation:dmCol .8s ease-out forwards}
+.dm-bar{opacity:0;transform-origin:0 50%;height:24px;line-height:24px;border-radius:6px;color:#fff;font-size:11px;font-weight:500;padding:0 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;align-self:center}
+.dm-on .dm-bar{animation:dmGrow .7s ease-out forwards}
+.dm-eb{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#4598c5}
+.dm-hl{font-family:'Volkhov',serif;font-weight:700;font-size:23px;line-height:1.25;color:#181e4b}
+.dm-vk{font-family:'Volkhov',serif}
+.dm-brush{position:absolute;left:0;bottom:2px;height:7px;width:0;background:#df6951;border-radius:4px;z-index:0}
+.dm-on .dm-brush{animation:dmDraw .6s ease-out 1s forwards}
+.dm-l{display:inline-block;transition:transform .6s ease-out,color .6s ease-out;cursor:default}
+.dm-l:hover{color:#8f7ff0;transform:translateY(-6px) skewX(-12deg) scale(1.08);transition-duration:.12s}
+.dm-w{transition:color .5s ease-out;cursor:default}
+.dm-w:hover{color:#8f7ff0;transition-duration:.1s}
+.dm-track{position:relative;width:180px;height:3px;border-radius:2px;background:#e6eef4}
+.dm-fill{position:absolute;left:0;top:0;height:3px;width:0;border-radius:2px;background:#0f8f87}
+.dm-dot{position:absolute;top:-4px;left:0;width:11px;height:11px;margin-left:-5px;border-radius:50%;background:#df6951}
+.dm-on .dm-fill{animation:dmFill 4.1s linear forwards}
+.dm-on .dm-dot{animation:dmDot 4.1s linear forwards}
+.dm-lc{position:absolute;left:0;right:0;top:12px;font-size:11px;color:#5e6282;opacity:0;text-align:center}
+.dm-on .c1{animation:dmCap1 4.1s linear forwards}
+.dm-on .c2{animation:dmUp .6s ease-out 4.2s forwards}
+.dm-phone{position:relative;width:150px;height:300px;border:6px solid #181e4b;border-radius:26px;background:#fff;overflow:hidden}
+.dm-reel{position:relative;width:148px;height:284px;border:6px solid #181e4b;border-radius:26px;overflow:hidden;background:#4598c5;transition:background .5s}
+.dm-on .dm-site{animation:dmSite 10s ease-in-out 1.4s infinite alternate}
+.dm-pill{display:inline-block;font-size:11px;font-weight:600;padding:2px 10px;border-radius:20px;background:#e1f3f1;color:#0b6e68;margin-right:8px}
+.dm-card{background:#f4f7fa;border-radius:6px;padding:5px}
+.dm-pz{position:absolute;width:56px;height:56px;left:var(--sl);top:var(--st);opacity:0}
+.dm-on .dm-pz{animation:dmPz 4.2s ease-in-out forwards}
+.dm-pzi{position:relative;width:56px;height:56px;transition:transform .3s ease-out;cursor:default}
+.dm-pzi:hover{transform:rotate(-8deg) scale(1.1)}
+.dm-pzb{position:absolute;inset:0;border-radius:7px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;font-size:18px}
+.dm-knob{position:absolute;width:18px;height:18px;border-radius:50%}
+.dm-sw{position:relative;height:100%;border-radius:10px;padding:9px 14px;transition:transform .3s ease-out;box-sizing:border-box}
+.dm-sw:hover{transform:translateY(-4px)}
+.dm-swl{font-size:11px;line-height:1.5}
+.dm-bub{position:absolute;width:62px;height:62px;margin:0 0 -31px -31px;opacity:0}
+.dm-bubi{width:100%;height:100%;border-radius:50%;display:flex;align-items:center;justify-content:center;text-align:center;font-size:11px;font-weight:600;line-height:1.2;cursor:pointer;transition:transform .25s ease-out;box-sizing:border-box;border:2px solid transparent}
+.dm-bubi:hover{transform:scale(1.1)}
+.dm-bsel{border-color:#181e4b}
+.dm-ring{position:absolute;inset:-6px;border-radius:50%;border:2px solid #0f8f87;animation:dmRing 2s ease-out infinite}
+.dm-p{position:absolute;inset:0;display:grid;grid-template-columns:150px minmax(0,1fr);gap:22px;align-items:center;opacity:0;visibility:hidden;transform:translateX(30px);transition:opacity .5s ease-out,transform .5s ease-out,visibility .5s}
+.dm-p.dm-pon{opacity:1;visibility:visible;transform:none}
+.dm-ic{background:#f4f7fa;border-radius:8px;padding:8px 10px}
+.dm-icl,.dm-lbl{font-size:11px;font-weight:600;color:#4598c5;margin-bottom:2px}
+.dm-icv{font-size:11px;line-height:1.5;color:#181e4b}
+.dm-tab{font-family:'Poppins',sans-serif;font-size:11px;font-weight:500;padding:4px 12px;border-radius:20px;border:1px solid #cfd6de;background:#fff;color:#5e6282;cursor:pointer}
+.dm-tab.dm-ton{background:#181e4b;border-color:#181e4b;color:#fff}
+.dm-rc{height:100%;box-sizing:border-box;background:#f4f7fa;border-radius:10px;padding:10px 12px;transition:transform .3s ease-out,background .3s}
+.dm-rc:hover{transform:translateY(-4px);background:#eaf3f9}
+.dm-whn{display:inline-flex;width:20px;height:20px;border-radius:50%;background:#df6951;color:#fff;font-size:11px;font-weight:600;align-items:center;justify-content:center;margin-right:6px}
+.dm-tr{height:34px;margin-bottom:3px;display:flex;align-items:center;justify-content:center;gap:6px;font-size:11px;font-weight:600;cursor:pointer;background:var(--pale);color:var(--deep);transition:background .4s,color .4s}
+.dm-tr.dm-done{background:var(--mid);color:#fff}
+.dm-tr.dm-act{background:var(--deep);color:#fff}
+.dm-mk{position:absolute;left:-16px;top:11px;width:11px;height:11px;border-radius:50%;background:#df6951;transition:top .45s ease-out}
+.dm-swp{animation:dmUp .45s ease-out}
+.dm-chip{display:inline-flex;align-items:center;gap:6px;background:#f4f7fa;border-radius:20px;padding:3px 10px 3px 3px;font-size:11px;margin:0 6px 6px 0}
+.dm-chi{flex:none;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;background:var(--deep,#0b6e68)}
+.dm-lm{display:inline-flex;align-items:center;gap:5px;border:1px dashed #9fb3c4;border-radius:20px;padding:2px 9px;font-size:11px;color:#5e6282;margin:0 5px 5px 0}
+.dm-plw{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;cursor:pointer;--pc:var(--pale);--ic:var(--deep)}
+.dm-plw.dm-done{--pc:var(--mid);--ic:#fff}
+.dm-plw.dm-act{--pc:var(--deep);--ic:#fff}
+.dm-cp{width:54px;height:8px;border-radius:3px;background:var(--pc);transition:background .4s}
+.dm-shaft{position:relative;width:42px;background:var(--pc);transition:background .4s;display:flex;justify-content:center;padding-top:8px;box-sizing:border-box;color:var(--ic)}
+.dm-shaft::before,.dm-shaft::after{content:'';position:absolute;top:34px;bottom:6px;width:2px;background:rgba(255,255,255,.55)}
+.dm-shaft::before{left:13px}.dm-shaft::after{right:13px}
+.dm-lk{font-size:11px;color:#4598c5;text-decoration:none}
+.dm-row{display:flex;align-items:flex-start;gap:8px;margin-bottom:7px}
+.dm-lg{display:flex;align-items:center;gap:7px;font-size:11px;line-height:1.5;margin-bottom:4px}
+.dm-sq{flex:none;width:10px;height:10px;border-radius:2px}
+.dm-bc{background:#f4f7fa;padding:8px 12px}
+.dm-own{display:inline-flex;align-items:center;gap:5px;background:#f4f7fa;border-radius:20px;padding:3px 10px;font-size:11px;margin:0 5px 5px 0}
+.dm-kr{display:flex;justify-content:space-between;gap:8px;font-size:11px;line-height:1.45;margin-top:3px}
+.dm-nav{position:fixed;left:16px;bottom:16px;display:flex;gap:8px;z-index:10}
+.dm-nav button{width:36px;height:36px;border-radius:50%;border:1px solid #cfd6de;background:#fff;color:#181e4b;font-size:16px;cursor:pointer}
+.dm-nav button:hover{background:#f4f7fa}
+@keyframes dmUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes dmLeft{from{opacity:0;transform:translateX(-30px)}to{opacity:1;transform:translateX(0)}}
+@keyframes dmRight{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
+@keyframes dmPop{0%{opacity:0;transform:scale(.3)}70%{opacity:1;transform:scale(1.12)}100%{opacity:1;transform:scale(1)}}
+@keyframes dmSpin{0%{opacity:0;transform:scale(.5) rotate(-90deg)}100%{opacity:1;transform:scale(1) rotate(0deg)}}
+@keyframes dmDrop{0%{opacity:0;transform:translateY(-26px)}70%{opacity:1;transform:translateY(3px)}100%{opacity:1;transform:translateY(0)}}
+@keyframes dmRise{0%{opacity:1;transform:scaleY(0)}75%{opacity:1;transform:scaleY(1.05)}100%{opacity:1;transform:scaleY(1)}}
+@keyframes dmCol{0%{opacity:1;transform:scaleY(0)}100%{opacity:1;transform:scaleY(1)}}
+@keyframes dmGrow{0%{opacity:1;transform:scaleX(0)}100%{opacity:1;transform:scaleX(1)}}
+@keyframes dmRing{0%{transform:scale(1);opacity:.8}100%{transform:scale(1.5);opacity:0}}
+@keyframes dmDraw{from{width:0}to{width:100%}}
+@keyframes dmFill{0%{width:0}8%{width:0}32%{width:33%}60%{width:66%}80%{width:88%}100%{width:100%}}
+@keyframes dmDot{0%{left:0}8%{left:0}32%{left:33%}60%{left:66%}80%{left:88%}100%{left:100%}}
+@keyframes dmCap1{0%{opacity:1}92%{opacity:1}100%{opacity:0}}
+@keyframes dmSite{from{transform:translateY(0)}to{transform:translateY(var(--dms,-300px))}}
+@keyframes dmPz{0%{left:var(--sl);top:var(--st);opacity:0;transform:rotate(var(--r))}8%{opacity:1}34%{left:var(--al);top:var(--at);opacity:1;transform:rotate(0deg) scale(1)}38%{left:var(--al);top:var(--at);opacity:1;transform:rotate(0deg) scale(1.08)}42%{left:var(--al);top:var(--at);opacity:1;transform:rotate(0deg) scale(1)}58%{left:var(--al);top:var(--at);opacity:1;transform:rotate(0deg) scale(1)}88%{left:var(--fl);top:34%;opacity:1;transform:rotate(var(--r2))}94%{left:var(--fl);top:28%;opacity:1;transform:rotate(0deg)}100%{left:var(--fl);top:30%;opacity:1;transform:rotate(0deg)}}
+</style>
+</head>
+<body>
+<div class="dm-frame" id="dmFrame">
+
+<!-- 1 WELCOME -->
+<div class="dm-s">
+  <div class="dm-g" style="right:-14%;top:-34%;width:60%;background:radial-gradient(circle,#9fd3e8 0%,rgba(159,211,232,0.5) 35%,rgba(159,211,232,0) 70%)"></div>
+  <div class="dm-g" style="left:-18%;bottom:-46%;width:50%;background:radial-gradient(circle,rgba(69,152,197,0.28) 0%,rgba(69,152,197,0) 68%)"></div>
+  <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:0 9% 34px">
+    <div class="dm-in dm-vk" style="animation-delay:.3s;font-weight:700;font-size:44px;line-height:1.15;margin:0 0 12px"><span data-letters>Hello</span> <span style="position:relative;display:inline-block"><span data-letters style="position:relative;z-index:1">Takki,</span><span class="dm-brush"></span></span></div>
+    <div class="dm-in" data-words style="animation-delay:1.3s;font-size:15px;line-height:1.7;color:#5e6282;max-width:340px;margin:0 0 26px">A focused 90-day growth plan.</div>
+    <div class="dm-in" data-words style="animation-delay:2.5s;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#4598c5;margin:0 0 4px">A growth plan for your brand</div>
+    <!-- LOGO: to use the real logo, replace the next line with: <div class="dm-in" style="animation-delay:3.3s"><img src="logo.png" alt="Dr Mantra" style="height:44px"></div> -->
+    <div class="dm-in" style="animation-delay:3.3s;font-size:32px;font-weight:600;color:#0f8f87;line-height:1.2">Dr Mantra<span style="font-size:11px;font-weight:400;vertical-align:super">TM</span></div>
+  </div>
+  <div style="position:absolute;left:0;right:0;bottom:40px;display:flex;justify-content:center"><div class="dm-track"><div class="dm-fill"></div><div class="dm-dot"></div><div class="dm-lc c1">Preparing your growth plan</div><div class="dm-lc c2" style="color:#0f8f87">Ready. Scroll to begin</div></div></div>
+  <div class="dm-num"></div>
+</div>
+
+<!-- 2 BRAND INTRODUCTION -->
+<div class="dm-s">
+  <div class="dm-g" style="left:-6%;top:6%;width:48%;background:radial-gradient(circle,rgba(159,211,232,0.75) 0%,rgba(159,211,232,0.3) 40%,rgba(159,211,232,0) 70%)"></div>
+  <div style="position:absolute;inset:0;display:grid;grid-template-columns:36% minmax(0,1fr);align-items:center;padding:0 5% 0 3%">
+    <div class="dm-in dm-left" style="display:flex;justify-content:center"><div class="dm-phone">
+      <!-- WEBSITE: to use the real screenshot, replace everything inside the next div with: <img src="website.png" alt="" style="width:100%;display:block"> -->
+      <div class="dm-site" id="dmSite">
+      <div style="background:#181e4b;color:#fff;font-size:11px;text-align:center;padding:2px 0;white-space:nowrap;overflow:hidden">10% off on prepaid orders</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:6px 8px;border-bottom:1px solid #e9eef2"><i class="ti ti-menu-2" style="font-size:14px"></i><span style="font-size:12px;font-weight:600;color:#0f8f87">Dr Mantra</span><i class="ti ti-shopping-bag" style="font-size:14px"></i></div>
+      <div style="display:flex;justify-content:space-between;padding:8px"><div style="width:26px;height:26px;border-radius:50%;background:#e1f5ee"></div><div style="width:26px;height:26px;border-radius:50%;background:#e6f1fb"></div><div style="width:26px;height:26px;border-radius:50%;background:#faece7"></div><div style="width:26px;height:26px;border-radius:50%;background:#eeedfe"></div></div>
+      <div style="background:#e6f4ea;padding:8px;margin:0 6px;border-radius:6px"><div style="font-size:11px;font-weight:600;line-height:1.35">Doctor-recommended formula for <span style="color:#0f8f87">healthy liver</span></div>
+        <div style="display:flex;justify-content:center;align-items:flex-end;gap:6px;margin-top:8px"><div style="width:30px;height:58px;border-radius:6px 6px 4px 4px;background:#fff;border:1px solid #d9dfe5;display:flex;align-items:center"><div style="width:100%;height:18px;background:#7b3fa0"></div></div><div style="width:26px;height:40px;border-radius:5px;background:#fff;border:1px solid #d9dfe5;display:flex;align-items:center"><div style="width:100%;height:14px;background:#7b3fa0"></div></div></div>
+        <div style="margin:8px auto 0;width:64px;text-align:center;font-size:11px;font-weight:600;color:#fff;background:#8a5a1c;border-radius:10px;padding:1px 0">Shop now</div></div>
+      <div style="font-size:12px;font-weight:600;text-align:center;margin:10px 0 6px">Best sellers</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:0 6px" id="dmBs"></div>
+      <div style="font-size:12px;font-weight:600;text-align:center;margin:12px 0 6px">Customer stories</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:0 6px"><div style="height:70px;border-radius:6px;background:#2a3166;display:flex;align-items:center;justify-content:center;color:#fff"><i class="ti ti-player-play" style="font-size:16px"></i></div><div style="height:70px;border-radius:6px;background:#2a3166;display:flex;align-items:center;justify-content:center;color:#fff"><i class="ti ti-player-play" style="font-size:16px"></i></div></div>
+      <div style="margin:12px 6px 0;background:#0f8f87;border-radius:6px;padding:10px 8px;text-align:center;color:#fff;font-size:11px;font-weight:600">Free doctor consultation</div>
+      <div style="background:#181e4b;height:60px;padding:10px 8px;margin-top:12px"><div style="height:4px;width:60%;background:#5e6282;border-radius:2px"></div><div style="height:4px;width:40%;background:#5e6282;border-radius:2px;margin-top:6px"></div></div>
+    </div></div></div>
+    <div>
+      <div class="dm-in dm-eb" style="animation-delay:.3s;margin:0 0 6px">Brand introduction</div>
+      <div class="dm-in dm-hl" data-words style="animation-delay:.5s;font-size:25px;margin:0 0 10px">Born to fight kidney stones. Built to heal much more.</div>
+      <div class="dm-in" style="animation-delay:.7s;font-size:12px;line-height:1.65;color:#5e6282;margin:0 0 14px">An Ayurvedic wellness brand founded in 2021. Every plan combines medicine, diet guidance and doctor support.</div>
+      <div class="dm-in" style="animation-delay:.9s;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:0 0 14px">
+        <div><div class="dm-vk" style="font-size:22px;line-height:1.2">2021</div><div style="font-size:11px;color:#5e6282">Founded</div></div>
+        <div><div class="dm-vk" style="font-size:22px;line-height:1.2">10</div><div style="font-size:11px;color:#5e6282">Health categories</div></div>
+        <div><div class="dm-vk" style="font-size:22px;line-height:1.2">100+</div><div style="font-size:11px;color:#5e6282">Team members</div></div>
+      </div>
+      <div class="dm-in" style="animation-delay:1.1s;font-size:12px;color:#5e6282;margin:0 0 6px"><span class="dm-pill">D2C</span>Website, marketplaces, WhatsApp, consultations</div>
+      <div class="dm-in" style="animation-delay:1.25s;font-size:12px;color:#5e6282;margin:0 0 12px"><span class="dm-pill">B2B</span>Distributors, private label, exports</div>
+      <div class="dm-in" style="animation-delay:1.4s;font-size:11px;color:#5e6282;border-top:1px solid #e9eef2;padding-top:8px">Backed by 100X VC and the founders of Sirona · Indore, Noida, Pune</div>
+    </div>
+  </div>
+  <div class="dm-num"></div>
+</div>
+
+<!-- 3 PROBLEM STATEMENT -->
+<div class="dm-s">
+  <div class="dm-in dm-vk" data-letters style="animation-delay:2.7s;position:absolute;left:0;right:0;top:8%;text-align:center;font-weight:700;font-size:28px">Problem statement</div>
+  <div class="dm-pz" style="--sl:8%;--st:-22%;--al:calc(50% - 56px);--at:calc(50% - 56px);--fl:5%;--r:-60deg;--r2:14deg"><div class="dm-pzi"><div class="dm-pzb" style="background:#df6951;-webkit-mask:radial-gradient(circle at 28px 55px,transparent 9px,#000 9.5px);mask:radial-gradient(circle at 28px 55px,transparent 9px,#000 9.5px)">1</div><span class="dm-knob" style="right:-10px;top:19px;background:#df6951"></span></div></div>
+  <div class="dm-pz" style="--sl:86%;--st:-22%;--al:50%;--at:calc(50% - 56px);--fl:28%;--r:50deg;--r2:-12deg"><div class="dm-pzi"><div class="dm-pzb" style="background:#4598c5;-webkit-mask:radial-gradient(circle at 1px 28px,transparent 9px,#000 9.5px);mask:radial-gradient(circle at 1px 28px,transparent 9px,#000 9.5px)">2</div><span class="dm-knob" style="bottom:-10px;left:19px;background:#4598c5"></span></div></div>
+  <div class="dm-pz" style="--sl:4%;--st:112%;--al:calc(50% - 56px);--at:50%;--fl:51%;--r:40deg;--r2:10deg"><div class="dm-pzi"><div class="dm-pzb" style="background:#0f8f87;-webkit-mask:radial-gradient(circle at 55px 28px,transparent 9px,#000 9.5px);mask:radial-gradient(circle at 55px 28px,transparent 9px,#000 9.5px)">3</div><span class="dm-knob" style="top:-10px;left:19px;background:#0f8f87"></span></div></div>
+  <div class="dm-pz" style="--sl:90%;--st:112%;--al:50%;--at:50%;--fl:74%;--r:-45deg;--r2:-16deg"><div class="dm-pzi"><div class="dm-pzb" style="background:#8f7ff0;-webkit-mask:radial-gradient(circle at 28px 1px,transparent 9px,#000 9.5px);mask:radial-gradient(circle at 28px 1px,transparent 9px,#000 9.5px)">4</div><span class="dm-knob" style="left:-10px;top:19px;background:#8f7ff0"></span></div></div>
+  <div style="position:absolute;left:5%;right:5%;top:49%;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:2.67%" id="dmProb"></div>
+  <div class="dm-in" style="animation-delay:5.4s;position:absolute;left:10%;right:10%;bottom:9%;text-align:center;font-size:13px">One goal: a brand people remember and return to.</div>
+  <div class="dm-num"></div>
+</div>
+
+<!-- 4 SWOT -->
+<div class="dm-s">
+  <div style="position:absolute;inset:0;display:flex;flex-direction:column;padding:14px 5% 30px 3%">
+    <div style="text-align:center"><div class="dm-eb dm-in" style="animation-delay:.2s">SWOT: where we stand</div><div class="dm-hl dm-in" data-words style="animation-delay:.35s">Strong foundation. Scattered story.</div></div>
+    <div style="flex:1;min-height:0;display:grid;grid-template-columns:22px minmax(0,1fr) minmax(0,1fr);grid-template-rows:16px minmax(0,1fr) minmax(0,1fr);gap:6px 8px;margin-top:4px" id="dmSwot"><div></div><div class="dm-in" style="animation-delay:.5s;font-size:11px;color:#5e6282;text-align:center">The good</div><div class="dm-in" style="animation-delay:.5s;font-size:11px;color:#5e6282;text-align:center">The not-so-good</div></div>
+  </div>
+  <div class="dm-num"></div>
+</div>
+
+<!-- 5 COMPETITOR ANALYSIS -->
+<div class="dm-s">
+  <div style="position:absolute;left:5%;right:5%;top:14px"><div class="dm-eb dm-in" style="animation-delay:.2s">Competitor analysis</div><div class="dm-hl dm-in" data-words style="animation-delay:.35s">A crowded shelf. A clear space for us.</div></div>
+  <div style="position:absolute;left:5%;right:5%;top:84px;bottom:34px;display:grid;grid-template-columns:56% minmax(0,1fr);gap:22px">
+    <div style="position:relative">
+      <div class="dm-in" style="animation-delay:.5s;position:absolute;left:22px;right:0;top:0;bottom:22px;border-left:1.5px solid #181e4b;border-bottom:1.5px solid #181e4b" id="dmMap">
+        <div style="position:absolute;left:50%;top:0;bottom:0;border-left:1px dashed #d5dce3"></div><div style="position:absolute;top:50%;left:0;right:0;border-top:1px dashed #d5dce3"></div>
+        <div style="position:absolute;right:4px;top:4px;width:44%;height:44%;border:1.5px dashed #0f8f87;border-radius:10px;background:#eef8f7"></div>
+        <div style="position:absolute;right:12px;top:8px;font-size:11px;font-weight:600;color:#0b6e68">Clear space</div>
+      </div>
+      <div class="dm-in" style="animation-delay:.5s;position:absolute;left:22px;right:0;bottom:0;font-size:11px;color:#5e6282;display:flex;justify-content:space-between"><span>Product only</span><span>Guided care</span></div>
+      <div class="dm-in" style="animation-delay:.5s;position:absolute;left:0;top:0;bottom:22px;width:16px;font-size:11px;color:#5e6282;writing-mode:vertical-rl;transform:rotate(180deg);display:flex;justify-content:space-between"><span>Broad range</span><span>Specialist</span></div>
+    </div>
+    <div class="dm-in" style="animation-delay:1.9s;background:#f4f7fa;border-radius:10px;padding:14px 16px;align-self:center">
+      <div id="dmCn" class="dm-vk" style="font-size:17px;margin-bottom:8px"></div>
+      <div class="dm-icl">Brands</div><div class="dm-icv" id="dmCb" style="margin-bottom:8px"></div>
+      <div class="dm-icl">What they do well</div><div class="dm-icv" id="dmCw" style="margin-bottom:8px"></div>
+      <div class="dm-icl" style="color:#0b6e68">Where we stand apart</div><div class="dm-icv" id="dmCx"></div>
+      <div style="font-size:11px;color:#5e6282;margin-top:10px;border-top:1px solid #e1e7ed;padding-top:6px">Select a bubble to compare</div>
+    </div>
+  </div>
+  <div class="dm-num"></div>
+</div>
+
+<!-- 6 TARGET GROUP -->
+<div class="dm-s" id="dmTG" data-steps="3" data-step="0">
+  <div style="position:absolute;left:5%;right:5%;top:14px"><div class="dm-eb dm-in" style="animation-delay:.2s">Who we're targeting</div><div class="dm-hl dm-in" data-words style="animation-delay:.35s">Three people. Three reasons to choose us.</div></div>
+  <div class="dm-in" style="animation-delay:.6s;position:absolute;left:5%;right:5%;top:82px;bottom:54px" id="dmPers"></div>
+  <div class="dm-in" style="animation-delay:.9s;position:absolute;left:0;right:0;bottom:18px;display:flex;justify-content:center;gap:8px" id="dmTabs"></div>
+  <div class="dm-num"></div>
+</div>
+
+<!-- 7 TWO BRANDS, TWO FUNNELS -->
+<div class="dm-s">
+  <div style="position:absolute;left:5%;right:5%;top:14px;text-align:center"><div class="dm-eb dm-in" style="animation-delay:.2s">Two brands. Two funnels.</div><div class="dm-hl dm-in" data-words style="animation-delay:.35s">One funnel can't sell a cure and a glow.</div><div class="dm-in" style="animation-delay:.5s;font-size:12px;line-height:1.5;color:#5e6282;margin-top:3px">Separate journeys for health and skincare.</div></div>
+  <div style="position:absolute;left:5%;right:5%;top:112px;bottom:30px;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));grid-template-rows:minmax(0,1fr) minmax(0,1fr);gap:8px" id="dmWhy"></div>
+  <div class="dm-num"></div>
+</div>
+
+<!-- 8 FUNNEL 1 -->
+<div class="dm-s" id="dmF1" data-steps="6" data-step="0" style="--pale:#e1f3f1;--mid:#3aa9a1;--deep:#0b6e68">
+  <div style="position:absolute;left:5%;right:5%;top:14px"><div class="dm-eb dm-in" style="animation-delay:.2s">Funnel 1: Dr. Mantra health</div><div class="dm-hl dm-in" data-words style="animation-delay:.35s">From a scroll to a consultation to a customer.</div></div>
+  <div style="position:absolute;left:5%;right:5%;top:86px;bottom:26px;display:grid;grid-template-columns:44% minmax(0,1fr);gap:20px;align-items:center">
+    <div style="display:flex;justify-content:center"><div class="dm-fn" style="position:relative;width:240px"></div></div>
+    <div class="dm-in" style="animation-delay:1.5s"><div class="dm-fd"></div>
+      <div style="border-top:1px solid #e9eef2;margin-top:6px;padding-top:7px"><div style="font-size:11px;font-weight:600;color:#df6951;margin-bottom:5px">Not ready for a call? Extra lead magnets</div><span class="dm-lm"><i class="ti ti-brand-whatsapp" style="font-size:13px"></i>Diet chart on WhatsApp</span><span class="dm-lm"><i class="ti ti-file-text" style="font-size:13px"></i>Doctor reviews your report</span><span class="dm-lm"><i class="ti ti-clipboard-list" style="font-size:13px"></i>Two-minute symptom quiz</span></div>
+    </div>
+  </div>
+  <div class="dm-hint">Scroll to move down the funnel</div><div class="dm-num"></div>
+</div>
+
+<!-- 9 FUNNEL 2 -->
+<div class="dm-s" id="dmF2" data-steps="6" data-step="0" style="--pale:#eeedfe;--mid:#8f7ff0;--deep:#534ab7">
+  <div style="position:absolute;left:5%;right:5%;top:14px"><div class="dm-eb dm-in" style="animation-delay:.2s">Funnel 2: Ayurvedic skincare</div><div class="dm-hl dm-in" data-words style="animation-delay:.35s">Build the audience first. Sell second.</div></div>
+  <div style="position:absolute;left:5%;right:5%;top:86px;bottom:26px;display:grid;grid-template-columns:44% minmax(0,1fr);gap:20px;align-items:center">
+    <div style="display:flex;justify-content:center"><div class="dm-fn" style="position:relative;width:240px"></div></div>
+    <div class="dm-in" style="animation-delay:1.5s"><div class="dm-fd"></div></div>
+  </div>
+  <div class="dm-hint">Scroll to move down the funnel</div><div class="dm-num"></div>
+</div>
+
+<!-- 10 DR MANTRA CONTENT PILLARS -->
+<div class="dm-s" id="dmP1" data-steps="6" data-step="0" style="--pale:#dcefed;--mid:#3aa9a1;--deep:#0b6e68">
+  <div class="dm-g" style="right:-4%;top:14%;width:52%;background:radial-gradient(circle,rgba(159,211,232,0.55) 0%,rgba(159,211,232,0.2) 40%,rgba(159,211,232,0) 68%)"></div>
+  <div style="position:absolute;left:5%;right:5%;top:14px"><div class="dm-eb dm-in" style="animation-delay:.2s">Dr. Mantra: content pillars</div><div class="dm-hl dm-in" data-words style="animation-delay:.35s">Five pillars. One voice.</div></div>
+  <div style="position:absolute;left:5%;right:5%;top:76px;bottom:28px;display:grid;grid-template-columns:50% minmax(0,1fr);gap:22px;align-items:center">
+    <div><div class="dm-plrow" style="display:flex;align-items:flex-end;gap:6px;height:190px"></div><div class="dm-in" style="animation-delay:.4s;height:3px;border-radius:2px;background:#181e4b"></div><div class="dm-plnames" style="display:flex;gap:6px;margin-top:5px"></div></div>
+    <div class="dm-in" style="animation-delay:1.6s;position:relative"><div class="dm-pd"></div></div>
+  </div>
+  <div class="dm-hint">Scroll to walk through the pillars</div><div class="dm-num"></div>
+</div>
+
+<!-- 11 DAILY RITUAL CONTENT PILLARS -->
+<div class="dm-s" id="dmP2" data-steps="5" data-step="0" style="--pale:#eeedfe;--mid:#8f7ff0;--deep:#534ab7">
+  <div class="dm-g" style="right:-4%;top:14%;width:52%;background:radial-gradient(circle,rgba(196,181,253,0.5) 0%,rgba(196,181,253,0.18) 40%,rgba(196,181,253,0) 68%)"></div>
+  <div style="position:absolute;left:5%;right:5%;top:14px"><div class="dm-eb dm-in" style="animation-delay:.2s">Daily Ritual: content pillars</div><div class="dm-hl dm-in" data-words style="animation-delay:.35s">Teach first. Show second. Sell last.</div></div>
+  <div style="position:absolute;left:5%;right:5%;top:76px;bottom:28px;display:grid;grid-template-columns:46% minmax(0,1fr);gap:24px;align-items:center">
+    <div><div class="dm-plrow" style="display:flex;align-items:flex-end;gap:6px;height:190px"></div><div class="dm-in" style="animation-delay:.4s;height:3px;border-radius:2px;background:#181e4b"></div><div class="dm-plnames" style="display:flex;gap:6px;margin-top:5px"></div></div>
+    <div class="dm-in" style="animation-delay:1.6s"><div class="dm-pd"></div></div>
+  </div>
+  <div class="dm-hint">Scroll to walk through the pillars</div><div class="dm-num"></div>
+</div>
+
+<!-- 12 PATIENT STORIES -->
+<div class="dm-s" id="dmPS" data-steps="7" data-step="0" style="--deep:#0b6e68">
+  <div class="dm-g" style="left:-6%;top:10%;width:46%;background:radial-gradient(circle,rgba(159,211,232,0.7) 0%,rgba(159,211,232,0.25) 40%,rgba(159,211,232,0) 68%)"></div>
+  <div style="position:absolute;left:36%;right:5%;top:14px"><div class="dm-eb dm-in" style="animation-delay:.2s">Pillar 1: patient stories</div><div class="dm-hl dm-in" data-words style="animation-delay:.35s;font-size:20px">Real patients. Shot on a phone. Directed by us.</div></div>
+  <div style="position:absolute;left:3%;width:31%;top:0;bottom:0;display:flex;align-items:center;justify-content:center"><div class="dm-in dm-left"><div class="dm-reel rl-ph"></div></div></div>
+  <div class="dm-in" style="animation-delay:.9s;position:absolute;left:36%;right:5%;top:84px;bottom:28px"><div class="rl-sd"></div></div>
+  <div class="dm-hint" style="left:36%">Scroll to play the script</div><div class="dm-num"></div>
+</div>
+
+<!-- 13 INFLUENCER SCRIPT -->
+<div class="dm-s" id="dmIS" data-steps="6" data-step="0" style="--deep:#534ab7">
+  <div class="dm-g" style="right:-6%;top:10%;width:46%;background:radial-gradient(circle,rgba(196,181,253,0.6) 0%,rgba(196,181,253,0.2) 40%,rgba(196,181,253,0) 68%)"></div>
+  <div style="position:absolute;left:5%;right:36%;top:14px"><div class="dm-eb dm-in" style="animation-delay:.2s">Daily Ritual: influencer script</div><div class="dm-hl dm-in" data-words style="animation-delay:.35s">Nani ka nuskha</div></div>
+  <div class="dm-in" style="animation-delay:.9s;position:absolute;left:5%;right:36%;top:82px;bottom:28px"><div class="rl-sd"></div></div>
+  <div style="position:absolute;right:3%;width:31%;top:0;bottom:0;display:flex;align-items:center;justify-content:center"><div class="dm-in dm-right"><div class="dm-reel rl-ph"></div></div></div>
+  <div class="dm-hint">Scroll to play the script</div><div class="dm-num"></div>
+</div>
+
+<!-- TREND REFERENCES -->
+<div class="dm-s">
+  <div style="position:absolute;left:5%;right:5%;top:20px"><div class="dm-eb dm-in" style="animation-delay:.2s">Trend reels</div><div class="dm-hl dm-in" style="animation-delay:.35s">Culture-led. Brand-relevant.</div><div class="dm-in" style="animation-delay:.5s;font-size:12px;color:#5e6282;margin-top:5px">Four creative references to adapt for Dr Mantra.</div></div>
+  <div class="dm-in" style="animation-delay:.65s;position:absolute;left:5%;right:5%;top:116px;bottom:42px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px"><a href="https://www.instagram.com/reel/Daxk2X4CtqO/" target="_blank" rel="noopener noreferrer" style="display:flex;flex-direction:column;justify-content:space-between;text-decoration:none;color:#181e4b;background:#f4f7fa;border:1px solid #e4eaf0;border-radius:12px;padding:14px;min-width:0;transition:transform .2s"><div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:11px;letter-spacing:.09em;color:#4598c5;font-weight:600">REFERENCE 01</span><i class="ti ti-arrow-up-right" style="font-size:17px;color:#0f8f87"></i></div><div style="display:flex;align-items:center;justify-content:center;flex:1"><div style="width:55px;height:55px;border-radius:50%;background:#e1f3f1;display:flex;align-items:center;justify-content:center"><i class="ti ti-brand-instagram" style="font-size:26px;color:#0b6e68"></i></div></div><div style="font-size:13px;font-weight:600">View reel <span style="font-size:11px;color:#5e6282;font-weight:400">↗</span></div></a><a href="https://www.instagram.com/reel/DO54RjkAa4m/" target="_blank" rel="noopener noreferrer" style="display:flex;flex-direction:column;justify-content:space-between;text-decoration:none;color:#181e4b;background:#f4f7fa;border:1px solid #e4eaf0;border-radius:12px;padding:14px;min-width:0;transition:transform .2s"><div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:11px;letter-spacing:.09em;color:#4598c5;font-weight:600">REFERENCE 02</span><i class="ti ti-arrow-up-right" style="font-size:17px;color:#0f8f87"></i></div><div style="display:flex;align-items:center;justify-content:center;flex:1"><div style="width:55px;height:55px;border-radius:50%;background:#e1f3f1;display:flex;align-items:center;justify-content:center"><i class="ti ti-brand-instagram" style="font-size:26px;color:#0b6e68"></i></div></div><div style="font-size:13px;font-weight:600">View reel <span style="font-size:11px;color:#5e6282;font-weight:400">↗</span></div></a><a href="https://www.instagram.com/reel/DdELSnjgDuK/" target="_blank" rel="noopener noreferrer" style="display:flex;flex-direction:column;justify-content:space-between;text-decoration:none;color:#181e4b;background:#f4f7fa;border:1px solid #e4eaf0;border-radius:12px;padding:14px;min-width:0;transition:transform .2s"><div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:11px;letter-spacing:.09em;color:#4598c5;font-weight:600">REFERENCE 03</span><i class="ti ti-arrow-up-right" style="font-size:17px;color:#0f8f87"></i></div><div style="display:flex;align-items:center;justify-content:center;flex:1"><div style="width:55px;height:55px;border-radius:50%;background:#e1f3f1;display:flex;align-items:center;justify-content:center"><i class="ti ti-brand-instagram" style="font-size:26px;color:#0b6e68"></i></div></div><div style="font-size:13px;font-weight:600">View reel <span style="font-size:11px;color:#5e6282;font-weight:400">↗</span></div></a><a href="https://www.instagram.com/reel/Dd-tg3TznSK/" target="_blank" rel="noopener noreferrer" style="display:flex;flex-direction:column;justify-content:space-between;text-decoration:none;color:#181e4b;background:#f4f7fa;border:1px solid #e4eaf0;border-radius:12px;padding:14px;min-width:0;transition:transform .2s"><div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:11px;letter-spacing:.09em;color:#4598c5;font-weight:600">REFERENCE 04</span><i class="ti ti-arrow-up-right" style="font-size:17px;color:#0f8f87"></i></div><div style="display:flex;align-items:center;justify-content:center;flex:1"><div style="width:55px;height:55px;border-radius:50%;background:#e1f3f1;display:flex;align-items:center;justify-content:center"><i class="ti ti-brand-instagram" style="font-size:26px;color:#0b6e68"></i></div></div><div style="font-size:13px;font-weight:600">View reel <span style="font-size:11px;color:#5e6282;font-weight:400">↗</span></div></a></div>
+  <div style="position:absolute;left:5%;bottom:16px;font-size:11px;color:#5e6282">Tap a card to open the Instagram reel.</div>
+  <div class="dm-num"></div>
+</div>
+
+<!-- 14 THE 90-DAY PLAN -->
+<div class="dm-s">
+  <div style="position:absolute;left:5%;right:5%;top:14px"><div class="dm-eb dm-in" style="animation-delay:.2s">The 90-day plan</div><div class="dm-hl dm-in" data-words style="animation-delay:.35s">Fix. Launch. Scale.</div></div>
+  <div id="dmCal" style="position:absolute;left:5%;right:5%;top:84px;bottom:34px;display:grid;grid-template-columns:96px repeat(12,minmax(0,1fr));grid-template-rows:22px 18px repeat(5,minmax(0,1fr));column-gap:3px;row-gap:4px"></div>
+  <div class="dm-in" style="animation-delay:2.6s;position:absolute;right:5%;top:58px;font-size:11px;font-weight:600;color:#df6951"><i class="ti ti-flag" style="font-size:14px;vertical-align:-2px;margin-right:4px"></i>Day 90</div>
+  <div class="dm-num"></div>
+</div>
+
+<!-- 15 BUDGET -->
+<div class="dm-s">
+  <div style="position:absolute;left:5%;right:5%;top:14px"><div class="dm-eb dm-in" style="animation-delay:.2s">Budget: both brands, 90 days</div><div class="dm-hl dm-in" data-words style="animation-delay:.35s">₹9.75 lakh, spent in three steps.</div></div>
+  <div style="position:absolute;left:5%;right:5%;top:92px;bottom:34px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;align-items:center">
+    <div style="display:flex;align-items:center;gap:16px"><div class="dm-in dm-spin" style="animation-delay:.6s;flex:none" id="dmD1"></div><div class="dm-in" style="animation-delay:1.2s"><div class="dm-vk" style="font-size:15px;margin-bottom:6px">Where it goes</div><div id="dmL1"></div></div></div>
+    <div style="display:flex;align-items:center;gap:16px"><div class="dm-in dm-spin" style="animation-delay:.9s;flex:none" id="dmD2"></div><div class="dm-in" style="animation-delay:1.5s"><div class="dm-vk" style="font-size:15px;margin-bottom:6px">When we spend it</div><div id="dmL2"></div></div></div>
+  </div>
+  <div class="dm-in" style="animation-delay:1.9s;position:absolute;left:5%;right:5%;bottom:30px;text-align:center;font-size:12px;color:#5e6282">Spend rises only as results come in: ₹1.75 lakh, then ₹3.25 lakh, then ₹4.75 lakh.</div>
+  <div class="dm-num"></div>
+</div>
+
+<!-- 16 RESULTS -->
+<div class="dm-s">
+  <div style="position:absolute;left:5%;right:5%;top:14px"><div class="dm-eb dm-in" style="animation-delay:.2s">Results: the 90-day forecast</div><div class="dm-hl dm-in" data-words style="animation-delay:.35s;font-size:21px">₹9.75 lakh in. About ₹16.7 lakh back.</div></div>
+  <div style="position:absolute;left:5%;right:5%;top:80px;bottom:28px;display:grid;grid-template-columns:34% minmax(0,1fr);gap:22px;align-items:center">
+    <div style="text-align:center"><div class="dm-in dm-spin" style="animation-delay:.6s;display:inline-block" id="dmD3"></div><div class="dm-in" style="animation-delay:1.2s;text-align:left;margin-top:6px"><div class="dm-vk" style="font-size:14px;margin-bottom:4px">Where revenue comes from</div><div id="dmL3"></div></div></div>
+    <div>
+      <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:14px;align-items:end">
+        <div><div class="dm-in dm-lbl" style="animation-delay:.8s;margin-bottom:4px">Return per ₹1 spent</div>
+          <div style="position:relative;height:86px;display:flex;align-items:flex-end;gap:10px;border-bottom:1.5px solid #181e4b" id="dmRb"><div class="dm-in" style="animation-delay:1.8s;position:absolute;left:0;right:0;bottom:33px;border-top:1px dashed #df6951"></div></div>
+          <div class="dm-in" style="animation-delay:1.8s;font-size:11px;color:#df6951;margin-top:2px">Dashed line: break-even at ₹1</div></div>
+        <div>
+          <div class="dm-in dm-bc" style="animation-delay:1.5s;margin-bottom:6px;border-left:3px solid #0f8f87"><div style="display:flex;justify-content:space-between;font-size:12px;font-weight:600"><span>Dr. Mantra</span><span style="color:#0b6e68">₹2.2 per ₹1</span></div><div style="font-size:11px;color:#5e6282">₹6.75 lakh in, ₹15.1 lakh back. Earns now.</div></div>
+          <div class="dm-in dm-bc" style="animation-delay:1.7s;border-left:3px solid #8f7ff0"><div style="display:flex;justify-content:space-between;font-size:12px;font-weight:600"><span>Daily Ritual</span><span style="color:#534ab7">₹0.5 per ₹1</span></div><div style="font-size:11px;color:#5e6282">₹3 lakh in, ₹1.6 lakh back. Builds now, earns later.</div></div>
+        </div>
+      </div>
+      <div class="dm-in" style="animation-delay:2s;margin-top:10px"><div class="dm-lbl" style="margin-bottom:4px">What we own on day 90</div><span class="dm-own"><i class="ti ti-users" style="font-size:13px;color:#0b6e68"></i>About 700 new customers, refills starting</span><span class="dm-own"><i class="ti ti-video" style="font-size:13px;color:#0b6e68"></i>A working funnel and patient story library</span><span class="dm-own"><i class="ti ti-heart" style="font-size:13px;color:#534ab7"></i>Daily Ritual targets: 10,000 followers, 1,500 waitlist</span></div>
+      <div class="dm-in dm-vk" style="animation-delay:2.3s;margin-top:4px;padding-left:12px;border-left:3px solid #df6951;font-size:13px;line-height:1.45">Dr. Mantra pays for the quarter. Daily Ritual is the investment for the next one.</div>
+    </div>
+  </div>
+  <div class="dm-hint">Illustrative forecast, not guaranteed results.</div><div class="dm-num"></div>
+</div>
+
+<!-- 17 CONCLUSION AND KPIS -->
+<div class="dm-s" id="dmEnd" data-steps="2" data-step="0">
+  <div style="position:absolute;left:5%;right:5%;top:14px"><div class="dm-eb dm-in" style="animation-delay:.2s">Conclusion</div><div class="dm-hl dm-in" data-words style="animation-delay:.35s;font-size:20px">One clear brand. One working funnel. A second brand ready to grow.</div></div>
+  <div class="dm-in" style="animation-delay:.8s;position:absolute;left:5%;right:5%;top:94px;bottom:30px"><div id="dmCc"></div></div>
+  <div class="dm-hint">Scroll for the KPIs</div><div class="dm-num"></div>
+</div>
+
+<!-- 18 THANK YOU -->
+<div class="dm-s">
+  <div class="dm-g" style="right:-14%;top:-34%;width:60%;background:radial-gradient(circle,#9fd3e8 0%,rgba(159,211,232,0.5) 35%,rgba(159,211,232,0) 70%)"></div>
+  <div class="dm-g" style="left:-18%;bottom:-46%;width:50%;background:radial-gradient(circle,rgba(69,152,197,0.28) 0%,rgba(69,152,197,0) 68%)"></div>
+  <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:0 9%">
+    <div class="dm-in dm-vk" style="animation-delay:.3s;font-weight:700;font-size:44px;line-height:1.15;margin:0 0 12px"><span data-letters>Thank</span> <span style="position:relative;display:inline-block"><span data-letters style="position:relative;z-index:1">you</span><span class="dm-brush"></span></span></div>
+    <div class="dm-in" data-words style="animation-delay:1.3s;font-size:15px;line-height:1.7;color:#5e6282;max-width:360px">Let’s build what comes next.</div>
+  </div>
+  <div class="dm-num"></div>
+</div>
+</div>
+
+<div class="dm-nav">
+  <button id="dmPrev" aria-label="Previous"><i class="ti ti-arrow-left"></i></button>
+  <button id="dmNext" aria-label="Next"><i class="ti ti-arrow-right"></i></button>
+  <button id="dmReplay" aria-label="Replay slide"><i class="ti ti-refresh"></i></button>
+</div>
+
+<script>
+(function(){
+  var f=document.getElementById('dmFrame'),slides=f.querySelectorAll('.dm-s'),idx=0,lock=false;
+  function $(id){return document.getElementById(id);}
+  function ic(n,st){return '<i class="ti '+n+'"'+(st?' style="'+st+'"':'')+'></i>';}
+  function chips(c){return c.map(function(x){return '<span class="dm-chip"><span class="dm-chi">'+ic(x[0])+'</span>'+x[1]+'</span>';}).join('');}
+  function quote(t,fs){return '<div class="dm-vk" style="padding-left:12px;border-left:3px solid #df6951;font-size:'+(fs||13)+'px;line-height:1.45">'+t+'</div>';}
+  function swap(el){el.classList.remove('dm-swp');void el.offsetWidth;el.classList.add('dm-swp');}
+
+  function fit(){var k=Math.min(window.innerWidth/680,window.innerHeight/382.5);f.style.transform='translate(-50%,-50%) scale('+k+')';}
+  window.addEventListener('resize',fit);fit();
+  slides.forEach(function(s,i){s.querySelector('.dm-num').textContent=('0'+(i+1)).slice(-2)+' / '+slides.length;});
+
+  /* Slide 2 and 3 small pieces */
+  $('dmBs').innerHTML=['#fbe9d5','#e4e0f7','#dcefe6','#dde9f6'].map(function(c){return '<div class="dm-card"><div style="height:44px;border-radius:4px;background:'+c+'"></div><div style="height:4px;background:#cfd6de;border-radius:2px;margin-top:5px"></div><div style="height:4px;width:50%;background:#0f8f87;border-radius:2px;margin-top:4px"></div></div>';}).join('');
+  $('dmProb').innerHTML=[['No marketing pillars','Every product speaks in a different voice, and nothing ties them together.'],['Low recall','People remember "Stone Crusher". They don\'t remember Dr Mantra.'],['A leaking funnel','Ads go straight to product pages, with no trust-building in between and no reason to return.'],['Skincare is coming','A new range is about to launch under a brand known only for kidney stones.']].map(function(p,i){return '<div class="dm-in" style="animation-delay:'+(4.1+i*0.2)+'s"><div style="font-size:13px;font-weight:600;margin-bottom:3px">'+p[0]+'</div><div style="font-size:11px;line-height:1.55;color:#5e6282">'+p[1]+'</div></div>';}).join('');
+
+  /* Slide 4: SWOT */
+  var swot=[["What we've got",null],['Strengths','#8fd0c6','ti-trophy',['Doctor + diet + product model','5 lakh+ customers, real video proof','Own manufacturing','Four revenue streams, VC-backed']],['Weaknesses','#a9cdf3','ti-alert-triangle',['Unclear identity: specialist or everything store?','Mismatched claims (93% vs 83%)','No subscription, no blog, weak lead capture','Dead social links, B2B invisible on site']],["What's out there",null],['Opportunities','#f5dc7f','ti-bulb',['Skincare launch into an existing base','Own "surgery-free kidney care"','Consultations as the main sales engine','Factory as a trust story']],['Threats','#f2b3a2','ti-bolt',['Legacy brands at a fraction of our price','Well-funded D2C Ayurveda players','Tighter rules on Ayurvedic health claims','Discounting and COD eating margins']]];
+  var sg=$('dmSwot'),d=0.6;
+  swot.forEach(function(c){
+    var el=document.createElement('div');el.className='dm-in';
+    if(c[1]===null){el.style.cssText='animation-delay:.5s;font-size:11px;color:#5e6282;writing-mode:vertical-rl;transform:rotate(180deg);text-align:center';el.textContent=c[0];}
+    else{d+=0.2;el.style.cssText='animation-delay:'+d+'s;min-height:0';el.innerHTML='<div class="dm-sw" style="background:'+c[1]+'">'+ic(c[2],'position:absolute;right:12px;top:10px;font-size:22px')+'<div class="dm-vk" style="font-size:17px;margin-bottom:3px">'+c[0]+'</div>'+c[3].map(function(l){return '<div class="dm-swl">'+l+'</div>';}).join('')+'</div>';}
+    sg.appendChild(el);
+  });
+
+  /* Slide 5: competitor map. x = guided care, y = specialist, 0 to 100 */
+  var comp=[
+    {k:'Heritage',n:'Heritage Ayurveda',x:16,y:20,bg:'#dde9f6',fg:'#0c447c',b:'Dabur, Patanjali, Baidyanath, Himalaya, Zandu',w:'Trust built over decades, wide reach, affordable',o:'Personal guidance, not just a product on a shelf'},
+    {k:'Modern D2C',n:'Modern D2C Ayurveda',x:47,y:30,bg:'#e4e0f7',fg:'#3c3489',b:"Kapiva, Dr Vaidya's, Upakarma, Kerala Ayurveda",w:'Strong branding, digital-first, wide range',o:'Depth in specific conditions, led by kidney care'},
+    {k:'Specialists',n:'Condition specialists',x:42,y:78,bg:'#fbe9d5',fg:'#633806',b:"Gynoveda (women's health), Traya (hair), Cystone and Neeri (kidney)",w:'Own one problem clearly',o:'A full care plan: doctor + diet + product'},
+    {k:'Skincare',n:'Ayurvedic skincare',x:15,y:58,bg:'#fbeaf0',fg:'#72243e',b:'Mamaearth, Forest Essentials, Kama Ayurveda, Just Herbs, Biotique',w:'Aspirational look, strong recall',o:'Skincare from a brand that treats health from within'},
+    {k:'Dr Mantra',n:'Dr Mantra',x:80,y:80,bg:'#0f8f87',fg:'#fff',b:'Stone Crusher, Fatty Liver, Diabo Pro and more',w:'Specialist depth with a doctor and a diet plan behind every product',o:'The only one in the top-right corner',me:true}];
+  var map=$('dmMap'),bubs=[];
+  function pick(i){var c=comp[i];$('dmCn').textContent=c.n;$('dmCb').textContent=c.b;$('dmCw').textContent=c.w;$('dmCx').textContent=c.o;bubs.forEach(function(b,j){b.classList.toggle('dm-bsel',j===i);});}
+  comp.forEach(function(c,i){
+    var w=document.createElement('div');w.className='dm-bub dm-pop';w.style.left=c.x+'%';w.style.bottom=c.y+'%';w.style.animationDelay=(0.8+i*0.2)+'s';
+    var b=document.createElement('div');b.className='dm-bubi';b.style.background=c.bg;b.style.color=c.fg;b.textContent=c.k;
+    b.addEventListener('mouseenter',function(){pick(i);});b.addEventListener('click',function(){pick(i);});
+    if(c.me){var r=document.createElement('div');r.className='dm-ring';w.appendChild(r);}
+    w.appendChild(b);map.appendChild(w);bubs.push(b);
+  });
+  pick(4);
+
+  /* Personas (slide 6) and illustrated people */
+  var hairShort='<path d="M38 48C38 30 48 24 60 24C72 24 82 30 82 48C76 40 68 36 60 36C52 36 44 40 38 48Z"/>',fringe='<path d="M39 47C43 31 55 27 60 27C68 27 79 33 81 47C70 38 52 36 39 47Z"/>';
+  var pers=[
+    {t:'The Patient',n:'Rajesh, 38',m:'Shop owner, Indore',fu:'Health funnel',bg:'#fbe9d5',skin:'#d9a27a',shirt:'#df6951',hair:'#2c2c2a',back:'',top:hairShort+'<path d="M50 60Q60 67 70 60Q60 63 50 60Z"/>',s:'Has a kidney stone, and it has come back before.',fe:'Surgery and its cost',wa:'Relief without an operation, and someone to guide him',re:'Google, YouTube, Facebook, WhatsApp',q:'Avoid surgery. Get a doctor-guided plan.'},
+    {t:'The Caregiver',n:'Priya, 29',m:'Working professional, Pune',fu:'Health funnel',bg:'#dcefe6',skin:'#e8b48c',shirt:'#0f8f87',hair:'#3a2a20',back:'<path d="M36 52C34 28 48 22 60 22C72 22 86 28 84 52L87 88L33 88Z"/>',top:fringe,s:'Her father has a health problem, and she is the one who orders.',fe:'Buying something unsafe for a parent',wa:'Proof, real doctors, real reviews',re:'Instagram, Google, marketplaces',q:'Real doctors. Real results.'},
+    {t:'The Skin-Conscious Buyer',n:'Sneha, 27',m:'Marketing executive, Noida',fu:'Skincare funnel',bg:'#e4e0f7',skin:'#f0c39e',shirt:'#8f7ff0',hair:'#2c2c2a',back:'<circle cx="60" cy="20" r="10"/>',top:fringe+'<circle cx="38" cy="58" r="2.5" fill="#df6951"/><circle cx="82" cy="58" r="2.5" fill="#df6951"/>',s:'Tired of products that irritate her skin.',fe:'Harsh ingredients and wasted money',wa:'A simple, traditional routine she can trust',re:'Instagram, creators, YouTube',q:'Skincare the way it was always meant to be.'}];
+  var av=0;
+  function avatar(p,size){av++;var id='dmav'+av;return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 120 120" role="img" aria-label="Illustrated person"><clipPath id="'+id+'"><circle cx="60" cy="60" r="58"/></clipPath><circle cx="60" cy="60" r="58" fill="'+p.bg+'"/><g clip-path="url(#'+id+')"><g fill="'+p.hair+'">'+p.back+'</g><path d="M22 122C22 94 42 84 60 84C78 84 98 94 98 122Z" fill="'+p.shirt+'"/><rect x="52" y="66" width="16" height="22" rx="6" fill="'+p.skin+'"/><circle cx="60" cy="50" r="22" fill="'+p.skin+'"/><g fill="'+p.hair+'">'+p.top+'</g><circle cx="52" cy="51" r="2" fill="#2c2c2a"/><circle cx="68" cy="51" r="2" fill="#2c2c2a"/></g></svg>';}
+  (function(){
+    var pb=$('dmPers'),tb=$('dmTabs'),ts=$('dmTG');
+    ts._step=function(st){ts.dataset.step=st;ts.querySelectorAll('.dm-p').forEach(function(p,j){p.classList.toggle('dm-pon',j===st);});ts.querySelectorAll('.dm-tab').forEach(function(t,j){t.classList.toggle('dm-ton',j===st);});};
+    pers.forEach(function(p,i){
+      var el=document.createElement('div');el.className='dm-p'+(i===0?' dm-pon':'');
+      el.innerHTML='<div style="text-align:center">'+avatar(p,112)+'<div class="dm-vk" style="font-size:17px;margin-top:4px">'+p.n+'</div><div style="font-size:11px;color:#5e6282">'+p.m+'</div><div class="dm-pill" style="margin:6px 0 0">'+p.fu+'</div></div>'
+        +'<div><div class="dm-eb" style="color:#df6951">'+(i+1)+'. '+p.t+'</div><div style="font-size:13px;font-weight:500;line-height:1.5;margin:2px 0 10px">'+p.s+'</div><div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px"><div class="dm-ic"><div class="dm-icl">Fear</div><div class="dm-icv">'+p.fe+'</div></div><div class="dm-ic"><div class="dm-icl">Wants</div><div class="dm-icv">'+p.wa+'</div></div><div class="dm-ic"><div class="dm-icl">Where we reach them</div><div class="dm-icv">'+p.re+'</div></div></div><div style="margin-top:10px">'+quote('\u201C'+p.q+'\u201D',15)+'</div></div>';
+      pb.appendChild(el);
+      var t=document.createElement('button');t.className='dm-tab'+(i===0?' dm-ton':'');t.textContent=(i+1)+'. '+p.t;t.addEventListener('click',function(){ts._step(i);});tb.appendChild(t);
+    });
+  })();
+
+  /* Slide 7: why two funnels */
+  [['ti-users','Different customers',"A patient in pain looking for relief. A buyer looking for better skin. They don't search, scroll or decide the same way."],['ti-bolt','Different triggers','Health sells on trust and guidance. Skincare sells on aspiration and routine.'],['ti-route','Different journeys','The health customer needs a doctor before buying. The skincare customer needs content and creators.'],['ti-layout-grid','Clutter costs sales','Everything sits on one website today and customers are already confused. Adding skincare would make that worse.'],['ti-chart-bar','Clearer numbers','Separate funnels show exactly what each brand spends and earns.']].forEach(function(w,i){
+    var el=document.createElement('div');el.className='dm-in';el.style.cssText='animation-delay:'+(0.7+i*0.18)+'s;min-height:0;grid-column:span '+(i<3?2:3);
+    el.innerHTML='<div class="dm-rc"><div style="display:flex;align-items:center;margin-bottom:4px"><span class="dm-whn">'+(i+1)+'</span><span style="font-size:12px;font-weight:600;flex:1">'+w[1]+'</span>'+ic(w[0],'font-size:18px;color:#4598c5')+'</div><div style="font-size:11px;line-height:1.5;color:#5e6282">'+w[2]+'</div></div>';
+    $('dmWhy').appendChild(el);
+  });
+
+  /* Slides 8 and 9: funnels */
+  function buildFunnel(id,data){
+    var s=$(id),fn=s.querySelector('.dm-fn'),fd=s.querySelector('.dm-fd'),tiers=[];
+    var mkw=document.createElement('div');mkw.className='dm-in';mkw.style.animationDelay='1.5s';var mk=document.createElement('div');mk.className='dm-mk';mkw.appendChild(mk);fn.appendChild(mkw);
+    data.forEach(function(st,i){
+      var a=i*5,b=i*5+5,w=document.createElement('div');w.className='dm-in dm-drop';w.style.animationDelay=(0.5+i*0.15)+'s';
+      var t=document.createElement('div');t.className='dm-tr';t.style.clipPath='polygon('+a+'% 0,'+(100-a)+'% 0,'+(100-b)+'% 100%,'+b+'% 100%)';
+      t.innerHTML=ic(st[0],'font-size:15px')+(i+1)+'. '+st[1];t.addEventListener('click',function(){s._step(i);});w.appendChild(t);fn.appendChild(w);tiers.push(t);
+    });
+    s._step=function(n){
+      s.dataset.step=n;var st=data[n];
+      tiers.forEach(function(t,j){t.classList.toggle('dm-done',j<n);t.classList.toggle('dm-act',j===n);});mk.style.top=(n*37+11)+'px';
+      fd.innerHTML='<div style="display:flex;align-items:baseline;gap:10px"><span class="dm-vk" style="font-size:30px;color:var(--mid);line-height:1">0'+(n+1)+'</span><span class="dm-vk" style="font-size:20px">'+st[1]+'</span><span style="font-size:11px;color:#5e6282;margin-left:auto">'+(n+1)+' of '+data.length+'</span></div><div style="font-size:13px;font-weight:500;line-height:1.5;margin:6px 0 10px">'+st[2]+'</div><div>'+chips(st[3])+'</div>';
+      swap(fd);
+    };
+    s._step(0);
+  }
+  buildFunnel('dmF1',[['ti-video','Attract','Ads reach people with a health problem.',[['ti-video','Customer-story videos'],['ti-speakerphone','Product ads: Stone Crusher, Fatty Liver, Diabo Pro']]],['ti-world','Land','Ads send traffic to the website.',[['ti-stethoscope','Story ads to the consultation page'],['ti-category','Product ads to the category page']]],['ti-forms','Capture','The visitor picks one of two paths.',[['ti-phone-call','Path A: free doctor consultation'],['ti-shopping-cart','Path B: buy directly']]],['ti-stethoscope','Nurture','The doctor builds trust.',[['ti-phone','Consultation call'],['ti-salad','Personalised diet plan'],['ti-brand-whatsapp','WhatsApp follow-ups']]],['ti-shopping-cart','Convert','The lead becomes a customer.',[['ti-package','Doctor recommends the right kit'],['ti-credit-card','Prepaid offer']]],['ti-refresh','Retain','The customer reorders.',[['ti-bell','Refill reminders'],['ti-heart','Progress check-ins'],['ti-gift','Referral reward']]]]);
+  buildFunnel('dmF2',[['ti-school','Educate','A content IP teaches traditional skincare.',[['ti-brand-instagram','A standalone account'],['ti-flask','What harsh ingredients do to skin'],['ti-mood-smile','No hard selling']]],['ti-speakerphone','Amplify','Influencers spread the idea.',[['ti-users','Skincare and wellness creators'],['ti-leaf','An ingredient series'],['ti-movie',"A grandmother's remedies series"]]],['ti-external-link','Redirect','The audience moves to the brand.',[['ti-external-link','IP accounts point to the brand page']]],['ti-clipboard-list','Capture','Followers become leads.',[['ti-clipboard-list','Skin-type quiz'],['ti-book','Free routine guide'],['ti-mail','Launch waitlist']]],['ti-shopping-bag','Convert','First purchase.',[['ti-package','Starter kit or trial sizes'],['ti-ticket','Creator codes']]],['ti-repeat','Retain','Routine becomes habit.',[['ti-bell','Routine reminders'],['ti-repeat','Subscriptions'],['ti-photo','Customer before and after stories']]]]);
+
+  /* Slides 10 and 11: content pillars */
+  function buildPillars(id,data,lastAct,lastHtml){
+    var s=$(id),row=s.querySelector('.dm-plrow'),names=s.querySelector('.dm-plnames'),pd=s.querySelector('.dm-pd'),cols=[],N=data.length;
+    data.forEach(function(p,i){
+      var w=document.createElement('div');w.className='dm-plw';
+      w.innerHTML='<div class="dm-in dm-vk" style="animation-delay:'+(1.2+i*0.12)+'s;font-size:15px;margin-bottom:3px">'+p.sh+'%</div><div class="dm-rise" style="animation-delay:'+(0.5+i*0.15)+'s;display:flex;flex-direction:column;align-items:center"><div class="dm-cp"></div><div class="dm-shaft" style="height:'+Math.round(p.sh/30*140)+'px">'+ic(p.i,'font-size:18px')+'</div><div class="dm-cp"></div></div>';
+      w.addEventListener('click',function(){s._step(i);});row.appendChild(w);cols.push(w);
+      var n=document.createElement('div');n.className='dm-in';n.style.cssText='animation-delay:'+(1.2+i*0.12)+'s;flex:1;text-align:center;font-size:11px;font-weight:500;line-height:1.3';n.textContent=(i+1)+'. '+p.n;names.appendChild(n);
+    });
+    s._step=function(n){
+      s.dataset.step=n;var last=n===N;
+      cols.forEach(function(c,j){c.classList.toggle('dm-act',last?j===lastAct:j===n);c.classList.toggle('dm-done',last?lastAct<0:j<n);});
+      if(!last){var p=data[n];
+        pd.innerHTML='<div style="display:flex;align-items:baseline;gap:10px"><span class="dm-vk" style="font-size:30px;color:var(--mid);line-height:1">0'+(n+1)+'</span><span class="dm-vk" style="font-size:19px">'+p.n+'</span><span style="margin-left:auto;font-size:11px;font-weight:600;padding:2px 10px;border-radius:20px;background:var(--pale);color:var(--deep);white-space:nowrap">'+p.sh+'% of content</span></div><div class="dm-lbl" style="margin-top:10px">Purpose</div><div style="font-size:13px;font-weight:500;line-height:1.5;margin-bottom:8px">'+p.p+'</div><div class="dm-lbl" style="margin-bottom:4px">Formats</div><div>'+chips(p.c)+'</div><div class="dm-lbl" style="margin:4px 0">Example idea</div>'+quote(p.e);
+      }else pd.innerHTML=lastHtml;
+      swap(pd);
+    };
+    s._step(0);
+  }
+  buildPillars('dmP1',[
+    {i:'ti-heart',n:'Patient stories',sh:30,p:'Brand recognition through emotion',c:[['ti-video','60 to 90 sec story reels'],['ti-movie','Mini-documentaries'],['ti-users','Family interviews']],e:"\u201CI was told surgery was the only way.\u201D The patient's fear, the first call with our doctor, life today."},
+    {i:'ti-trending-up',n:'Trend reels',sh:15,p:'Reach and algorithm push',c:[['ti-music','Trending audio'],['ti-device-mobile','Lo-fi phone videos'],['ti-mood-smile','Meme formats']],e:"\u201CSure, I'd like to see AI call a worried patient at 9 pm.\u201D"},
+    {i:'ti-school',n:'Education',sh:25,p:'Trust and saves',c:[['ti-stethoscope','Doctor-to-camera reels'],['ti-layout-grid','Carousels'],['ti-help','Myth vs fact'],['ti-salad','Diet tips']],e:"\u201C5 foods to avoid if you've had a stone\u201D"},
+    {i:'ti-building',n:'Brand story',sh:15,p:'Why we exist',c:[['ti-building','Factory tour cuts'],['ti-leaf','Ahar-Vihar-Chikitsa explainers'],['ti-flag','Milestones']],e:'\u201CFrom one product in 2021 to 5 lakh+ customers\u201D'},
+    {i:'ti-users',n:'Founders and team',sh:15,p:'A human face',c:[['ti-microphone','Founder talking heads'],['ti-stethoscope','A day with our doctors'],['ti-camera','Team moments']],e:'\u201CWhy we started with kidney stones,\u201D told by Takki and Shivansh'}],0,
+    '<div style="font-size:11px;font-weight:600;color:#df6951;margin-bottom:6px">Pillar 1 reference</div><div style="position:relative;background:#fff;border:1px solid #e3e9ef;border-radius:14px;padding:10px;width:78%"><div style="height:78px;border-radius:10px;background:#2a3166;display:flex;align-items:center;justify-content:center"><span style="width:34px;height:34px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;color:#2a3166">'+ic('ti-player-play','font-size:16px')+'</span></div><div style="font-size:14px;font-weight:500;margin-top:8px">Thank You Doctor</div><div style="font-size:11px;color:#5e6282">Sun Pharma film. Patients thank their doctors.</div><a class="dm-lk" href="https://www.youtube.com/watch?v=LgqvL87mgvw" target="_blank" style="display:inline-block;margin-top:6px;font-weight:600">Watch on YouTube</a><div style="position:absolute;right:-34%;bottom:10px;width:150px;background:#fff;border:1px solid #e3e9ef;border-radius:12px;padding:8px 10px"><div style="font-size:11px;color:#5e6282">Also watch</div><div style="font-size:12px;font-weight:500;line-height:1.35">Mankind Pharma Nurse Day film</div><div style="font-size:11px;color:#5e6282;line-height:1.4;margin-top:2px">A three-minute story of a patient and a nurse</div></div></div><div style="margin-top:10px">'+quote('Our version: one real patient, one real doctor and the diet plan, shot simply.')+'</div><div style="margin-top:6px;font-size:11px;color:#5e6282">Sources: <a class="dm-lk" href="https://www.agencyreporter.com/?p=52136" target="_blank">Agency Reporter</a> · <a class="dm-lk" href="https://www.freepressjournal.in/amp/viral/ahead-of-international-nurse-day-mankind-pharmas-emotional-ad-goes-viral-wins-praise-from-netizens" target="_blank">Free Press Journal</a></div>');
+  buildPillars('dmP2',[
+    {i:'ti-school',n:'Education IP',sh:30,p:'Build an audience before selling',c:[['ti-brand-instagram','A standalone account, in series format'],['ti-leaf','Ingredient stories'],['ti-history','History of Ayurvedic skincare']],e:'\u201CWhy ubtan has been used for centuries\u201D'},
+    {i:'ti-plant-2',n:'Traditional remedies',sh:25,p:'\u201CA remedy for everything\u201D',c:[['ti-video','Problem-and-remedy reels'],['ti-layout-grid','By concern: acne, dullness, pigmentation, dryness']],e:"\u201CYour grandmother's fix for dull skin, explained\u201D"},
+    {i:'ti-droplet',n:'Product showcase',sh:20,p:'Desire and conversion',c:[['ti-droplet','Texture shots'],['ti-video','Routine videos'],['ti-zoom-in','Ingredient close-ups'],['ti-rocket','Launch teasers']],e:'\u201CThree steps. Two minutes. Every morning.\u201D'},
+    {i:'ti-users',n:'Use cases and creators',sh:25,p:'Proof and reach',c:[['ti-users','Influencer routines'],['ti-calendar','30-day diaries'],['ti-movie','Collaborative reels']],e:"A creator's four-week skin diary"}],-1,
+    '<div style="font-size:11px;font-weight:600;color:#df6951">Pillar format</div><div class="dm-vk" style="font-size:17px;margin:2px 0 10px">The same template for every pillar</div><div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px 10px">'+[['ti-tag','Pillar name',''],['ti-target','Goal','Awareness, trust or sales'],['ti-filter','Funnel stage','Top, middle or bottom'],['ti-photo','Formats','Reel, carousel, story, long video'],['ti-bolt','Hook style','The first two seconds'],['ti-hand-click','Call to action','Follow, save, book a consultation, shop'],['ti-calendar','Frequency','Posts per week'],['ti-chart-bar','Metric','Views, saves, leads or orders']].map(function(t){return '<div style="display:flex;gap:7px;align-items:flex-start"><span class="dm-chi">'+ic(t[0])+'</span><div><div style="font-size:11px;font-weight:600;line-height:1.4">'+t[1]+'</div><div style="font-size:11px;line-height:1.4;color:#5e6282">'+t[2]+'</div></div></div>';}).join('')+'</div>');
+
+  /* Slides 12 and 13: scripts in a phone. To use a real photo, replace avatar(c.who,104) with an <img> tag. */
+  function buildReel(c){
+    var s=$(c.id),ph=s.querySelector('.rl-ph'),sd=s.querySelector('.rl-sd');
+    ph.innerHTML='<div style="position:absolute;left:8px;right:8px;top:7px;display:flex;justify-content:space-between;color:#fff;font-size:11px;font-weight:600"><span>Reels</span>'+ic('ti-camera','font-size:14px')+'</div><div class="rl-sc" style="position:absolute;left:8px;top:28px;font-size:11px;color:#fff"></div><div style="position:absolute;left:0;right:0;top:52px;display:flex;justify-content:center">'+avatar(c.who,104)+'</div><div style="position:absolute;right:7px;top:168px;display:flex;flex-direction:column;gap:9px;color:#fff;font-size:15px">'+ic('ti-heart')+ic('ti-message-circle')+ic('ti-send')+'</div><div class="rl-cap" style="position:absolute;left:6px;right:6px;bottom:18px;background:#181e4b;border-radius:6px;padding:5px 7px;color:#fff;font-size:11px;line-height:1.35"></div><div style="position:absolute;left:8px;right:8px;bottom:8px;height:3px;border-radius:2px;background:#8fa3b8"><div class="rl-pg" style="height:3px;width:0;border-radius:2px;background:#fff;transition:width .4s"></div></div>';
+    var small=avatar(c.who,38);
+    s._step=function(n){
+      s.dataset.step=n;var k=c.intro?n-1:n;
+      ph.querySelector('.rl-pg').style.width=Math.round((k+1)/6*100)+'%';
+      if(k<0){ph.style.background=c.intro.bg;ph.querySelector('.rl-sc').textContent=c.intro.sc;ph.querySelector('.rl-cap').textContent=c.intro.cap;sd.innerHTML=c.intro.html;}
+      else{var b=c.beats[k];ph.style.background=b.bg;ph.querySelector('.rl-sc').textContent=b.sc;ph.querySelector('.rl-cap').textContent=b.cap;
+        sd.innerHTML='<div style="font-size:11px;font-weight:600;color:#df6951">'+c.label+'</div><div style="display:flex;align-items:center;gap:8px;margin:8px 0"><span style="font-size:11px;font-weight:600;padding:2px 10px;border-radius:20px;background:'+c.cb+';color:'+c.cf+'">'+b.t+'</span><span style="font-size:11px;color:#5e6282">Beat '+(k+1)+' of 6</span></div><div style="font-size:12px;line-height:1.5;color:#5e6282;margin-bottom:10px">'+ic('ti-camera','font-size:14px;vertical-align:-2px;margin-right:5px;color:#4598c5')+b.v+'</div><div style="display:flex;gap:10px;align-items:flex-start"><div style="flex:none">'+small+'</div><div class="dm-vk" style="font-size:13px;line-height:1.5">\u201C'+b.d+'\u201D</div></div>'+(k===5?'<div style="margin-top:8px;background:#f4f7fa;border-radius:8px;padding:6px 10px;font-size:11px;line-height:1.5"><span style="font-weight:600">End card:</span> '+c.end+'</div>':'')+(c.note?'<div style="margin-top:8px;font-size:11px;line-height:1.45;color:#5e6282">'+c.note+'</div>':'');}
+      swap(sd);
+    };
+    s._step(0);
+  }
+  buildReel({id:'dmPS',who:pers[0],cb:'#e1f3f1',cf:'#0b6e68',label:'Script: \u201CPapa ab theek hain\u201D · 45 seconds, Hinglish',end:'Dr. Mantra Stone Crusher. Individual experience. Results may vary.',note:'A guide, not a fixed script. It says the pain reduced, not that the stone was cured.',
+    intro:{bg:'#4598c5',sc:'Patient story',cap:'Papa ab theek hain',html:'<div style="font-size:11px;font-weight:600;color:#df6951;margin-bottom:8px">The lean plan</div>'+[['ti-stack-2','Output','4 stories a month. Each gives 1 hero reel, 3 ad cuts and 1 YouTube video.'],['ti-device-mobile','How we shoot',"A family member films on the patient's phone. Our content lead directs live on a video call."],['ti-map-pin','Near our offices','Around Indore, Noida or Pune, a team member goes and shoots on a phone.'],['ti-users','Team','In-house only: content lead, patient coordinator, editor.'],['ti-calendar','Process','Week 1 find and consent, week 2 shoot, week 3 edit, week 4 publish.'],['ti-shield-check','Rules','Real patients, signed consent, no cure promises.']].map(function(r){return '<div class="dm-row"><span class="dm-chi">'+ic(r[0])+'</span><div style="flex:none;width:96px;font-size:11px;font-weight:600;line-height:1.45;padding-top:2px">'+r[1]+'</div><div style="font-size:11px;line-height:1.45;color:#5e6282;padding-top:2px">'+r[2]+'</div></div>';}).join('')},
+    beats:[
+      {t:'0 to 6 sec',bg:'#2a3166',sc:'Night, at home',v:'Close-up. He talks straight to the camera, like he is telling a friend.',cap:'Us raat dard aisa tha ki saans lena mushkil.',d:'Sach bataun? Us raat main zameen pe leta hua tha. Dard aisa ki saans lena mushkil. Aur bachche darwaze pe khade dekh rahe the.'},
+      {t:'6 to 14 sec',bg:'#3b4270',sc:'Hospital report',v:'Report in his hand, wife standing behind him.',cap:'Bole, operation karna padega.',d:'Hospital gaya toh bole, pathri hai, operation karna padega. Kharcha suna... bhaisaab, meri toh chhoti si dukaan hai. Itna paisa kahan se laata?'},
+      {t:'14 to 22 sec',bg:'#2a3166',sc:'The worry',v:'Sitting on the bed at night, daughter watching from the door.',cap:'Dukaan band rahi toh ghar kaise chalega?',d:'Ghar aake biwi se kaha, chhodo, dekha jayega. Par andar se darr lagta tha. Dukaan band rahi toh ghar kaise chalega?'},
+      {t:'22 to 32 sec',bg:'#0b6e68',sc:'Stone Crusher',v:'Stone Crusher on the table, a glass of water, simple home food.',cap:'Dost ne bola, Stone Crusher try kar.',d:'Phir ek dost ne bola, ek baar Dr. Mantra ka Stone Crusher try kar, Ayurvedic hai. Maine socha, try karne mein kya jaata hai. Roz subah-shaam liya, paani khoob piya, khana thoda sudhara.'},
+      {t:'32 to 40 sec',bg:'#3aa9a1',sc:'Back at the shop',v:'Opening his shop shutter, greeting a customer.',cap:'Aaj main roz dukaan khol raha hoon.',d:'Kuch hafton mein dard kam hone laga. Pehle uthna mushkil tha. Aaj main roz subah khud dukaan khol raha hoon.'},
+      {t:'40 to 45 sec',bg:'#d9793f',sc:'Home, evening',v:'Daughter brings chai and both smile. Logo and end card.',cap:'Bas chai le aati hai aur muskurati hai.',d:'Beti ab poochti nahi ki papa, theek ho? Bas chai le aati hai aur muskurati hai.'}]});
+  buildReel({id:'dmIS',who:pers[2],cb:'#eeedfe',cf:'#3c3489',label:'45 to 50 seconds, Hinglish · creator to camera',end:'Daily Ritual · Roz ki parampara · link in bio',
+    beats:[
+      {t:'0 to 5 sec',bg:'#534ab7',sc:"Nani's photo",v:'Creator holding an old photo of her grandmother, or pointing at one on the wall.',cap:'Nani ki skin 70 saal mein bhi glow karti thi.',d:'Meri nani ki skin 70 saal ki umar mein bhi glow karti thi. Aur unhone kabhi 10-step routine nahi kiya.'},
+      {t:'5 to 15 sec',bg:'#a86a0c',sc:'Kitchen bowls',v:'Quick cuts: haldi, besan, chandan, gulab jal in small bowls.',cap:'Haldi, besan, chandan aur gulab jal. Bas.',d:'Unke paas tha haldi, besan, chandan aur gulab jal. Har Sunday ubtan, har raat tel. Bas. Yehi tha unka skincare.'},
+      {t:'15 to 25 sec',bg:'#3b4270',sc:'Crowded shelf',v:'Her bathroom shelf crowded with bottles. She looks at it and shakes her head.',cap:'Skin confuse, hum bhi confuse.',d:'Aur hum? Har mahine naya serum, naya trend. Skin confuse, hum bhi confuse. Maine socha, wapas wahin chalte hain jahan se sab shuru hua tha.'},
+      {t:'25 to 33 sec',bg:'#c8642c',sc:'Ubtan mess',v:'She tries mixing ubtan in the kitchen, makes a mess, laughs.',cap:'Roz ubtan banane ka time kiske paas hai?',d:'Par sach bataun? Roz ubtan banane ka time kiske paas hai?'},
+      {t:'33 to 45 sec',bg:'#7566d9',sc:'Daily Ritual',v:'Daily Ritual products on a clean shelf. She applies one, close-up of texture.',cap:'Nani ka nuskha, mere routine mein.',d:'Tab mujhe mila Daily Ritual. Wahi purane Ayurvedic ingredients, bas ready-made. Subah do minute, raat ko do minute. Nani ka nuskha, mere routine mein.'},
+      {t:'45 to 50 sec',bg:'#8f7ff0',sc:'To camera',v:'Creator smiling at the camera, product in hand.',cap:'Daily Ritual, roz ki parampara.',d:'Skincare naya nahi hona chahiye. Sahi hona chahiye. Daily Ritual, roz ki parampara.'}]});
+
+  /* Slide 14: calendar. Each bar is [start week, weeks long, label, colour] */
+  (function(){
+    var g=$('dmCal');
+    function add(html,col,row,cls,delay,style){var el=document.createElement('div');el.className=cls;el.style.cssText='grid-column:'+col+';grid-row:'+row+';animation-delay:'+delay+'s;'+(style||'');el.innerHTML=html;g.appendChild(el);}
+    [['Month 1: Fix and build','#e1f3f1','#0b6e68'],['Month 2: Launch and learn','#dde9f6','#0c447c'],['Month 3: Scale and retain','#fbe9d5','#633806']].forEach(function(m,i){add(m[0],(2+i*4)+' / span 4',1,'dm-in',0.5+i*0.1,'background:'+m[1]+';color:'+m[2]+';border-radius:6px;font-size:11px;font-weight:600;text-align:center;line-height:22px');});
+    for(var w=1;w<=12;w++)add('W'+w,w+1,2,'dm-in',0.6,'font-size:11px;color:#5e6282;text-align:center');
+    [['Site and tracking',[[1,2,'Site fixes','#3aa9a1'],[3,2,'Landing page, tracking','#0f8f87']]],['Ads',[[1,4,'₹1 lakh: test','#3aa9a1'],[5,4,'₹2 lakh: story and product ads','#0f8f87'],[9,4,'₹3 lakh: scale winners','#0b6e68']]],['Content',[[1,4,'Shoot 4 patient stories','#3aa9a1'],[5,4,'Education and founder videos','#0f8f87'],[9,4,'Weekly stories, trend reels','#0b6e68']]],['Retention',[[5,4,'WhatsApp refill reminders','#0f8f87'],[9,4,'Refill offer, referral, prepaid','#0b6e68']]],['Daily Ritual',[[1,4,'Name, range, education IP','#8f7ff0'],[5,4,'Creators, waitlist, website','#7566d9'],[9,4,'Launch: starter kit, ads','#534ab7']]]].forEach(function(l,r){
+      var row=r+3;add('','2 / -1',row,'dm-in',0.7,'background:#f7f9fb;border-radius:6px');add(l[0],1,row,'dm-in',0.7+r*0.1,'font-size:11px;font-weight:600;align-self:center;line-height:1.3');
+      l[1].forEach(function(b,k){add(b[2],(b[0]+1)+' / span '+b[1],row,'dm-bar',1+r*0.15+k*0.35,'background:'+b[3]);});
+    });
+  })();
+
+  /* Slides 15 and 16: donut charts. Each slice is [value in lakh, colour, label] */
+  function donut(segs,centre,sub){
+    var C=2*Math.PI*40,tot=segs.reduce(function(a,s){return a+s[0];},0),off=0,h='<svg width="124" height="124" viewBox="0 0 120 120" role="img" aria-label="Donut chart"><g transform="rotate(-90 60 60)">';
+    segs.forEach(function(s){var len=s[0]/tot*C;h+='<circle cx="60" cy="60" r="40" fill="none" stroke="'+s[1]+'" stroke-width="20" stroke-dasharray="'+len.toFixed(2)+' '+(C-len).toFixed(2)+'" stroke-dashoffset="'+(-off).toFixed(2)+'"/>';off+=len;});
+    return h+'</g><text x="60" y="58" text-anchor="middle" font-family="Volkhov,serif" font-size="13" fill="#181e4b">'+centre+'</text><text x="60" y="72" text-anchor="middle" font-family="Poppins,sans-serif" font-size="8" fill="#5e6282">'+sub+'</text></svg>';
+  }
+  function legend(segs){var tot=segs.reduce(function(a,s){return a+s[0];},0);return segs.map(function(s){return '<div class="dm-lg"><span class="dm-sq" style="background:'+s[1]+'"></span><span>'+s[2]+'</span><span style="font-weight:600;white-space:nowrap">₹'+s[0]+' lakh</span><span style="color:#5e6282">'+Math.round(s[0]/tot*100)+'%</span></div>';}).join('');}
+  var b1=[[6,'#0f8f87','Dr. Mantra ads'],[3,'#8f7ff0','Daily Ritual'],[0.75,'#5cbdb6','Content and tools']],b2=[[1.75,'#9fd3e8','Month 1'],[3.25,'#4598c5','Month 2'],[4.75,'#181e4b','Month 3']],b3=[[11.3,'#0f8f87','Dr. Mantra ads'],[2.8,'#5cbdb6','Dr. Mantra organic'],[1.6,'#8f7ff0','Daily Ritual launch'],[1,'#df6951','Repeat orders']];
+  $('dmD1').innerHTML=donut(b1,'₹9.75L','total spend');$('dmL1').innerHTML=legend(b1);
+  $('dmD2').innerHTML=donut(b2,'90 days','three months');$('dmL2').innerHTML=legend(b2);
+  $('dmD3').innerHTML=donut(b3,'₹16.7L','revenue');$('dmL3').innerHTML=legend(b3);
+  [[0.9,'#9fd3e8','#181e4b'],[1.4,'#4598c5','#fff'],[2.2,'#0f8f87','#fff']].forEach(function(r,i){
+    var w=document.createElement('div');w.style.cssText='flex:1;text-align:center';
+    w.innerHTML='<div class="dm-in dm-vk" style="animation-delay:'+(1.6+i*0.2)+'s;font-size:14px">₹'+r[0]+'</div><div class="dm-col" style="animation-delay:'+(1+i*0.2)+'s;height:'+Math.round(r[0]*33)+'px;background:'+r[1]+';border-radius:4px 4px 0 0;color:'+r[2]+';font-size:11px;line-height:20px">M'+(i+1)+'</div>';
+    $('dmRb').appendChild(w);
+  });
+
+  /* Slide 17: conclusion and KPIs */
+  (function(){
+    var s=$('dmEnd'),cc=$('dmCc');
+    var ch=[['From scattered to clear','Dr. Mantra stands for doctor-guided care, led by kidney health.'],['From ads to a funnel','Every rupee leads to a consultation, an order and a refill.'],['From one brand to two','Daily Ritual launches on its own, with its own audience.'],['From discounts to trust','Patient stories, doctors and founders do the selling.']];
+    var kp=[['Ads','#0f8f87',[['ROAS on orders placed','2.3x'],['Cost per consultation lead','Under ₹250'],['Cost per new customer','Under ₹1,000']]],['Funnel','#4598c5',[['Lead-to-order rate','10%'],['COD share of orders','35% or lower'],['Returned orders (RTO)','Under 7% of all orders']]],['Daily Ritual','#8f7ff0',[['Followers','10,000'],['Waitlist sign-ups','1,500'],['Launch-month revenue','₹1.6 lakh']]],['Retention','#df6951',[['Customers reordering within 30 days','15%']]],['Organic','#3aa9a1',[['Monthly organic views','6 lakh'],['Share of revenue from organic','About 18%']]],['Overall','#181e4b',[['Return per ₹1 of marketing','₹2.2 in month 3']]]];
+    s._step=function(n){
+      s.dataset.step=n;
+      if(n===0)cc.innerHTML='<div class="dm-lbl" style="color:#df6951;margin-bottom:8px">What changes in 90 days</div><div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px">'+ch.map(function(c,i){return '<div class="dm-ic" style="padding:12px 14px"><div style="display:flex;align-items:center;margin-bottom:4px"><span class="dm-whn">'+(i+1)+'</span><span style="font-size:13px;font-weight:600">'+c[0]+'</span></div><div style="font-size:12px;line-height:1.5;color:#5e6282">'+c[1]+'</div></div>';}).join('')+'</div>';
+      else cc.innerHTML='<div style="display:flex;justify-content:space-between;margin-bottom:6px"><span class="dm-lbl" style="color:#df6951">KPIs to track: day-90 targets</span><span style="font-size:11px;color:#5e6282">Today: to be measured. Daily Ritual starts at 0.</span></div><div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">'+kp.map(function(k){return '<div class="dm-ic" style="border-top:3px solid '+k[1]+';border-radius:0 0 8px 8px"><div style="font-size:12px;font-weight:600">'+k[0]+'</div>'+k[2].map(function(r){return '<div class="dm-kr"><span style="color:#5e6282">'+r[0]+'</span><span style="font-weight:600;text-align:right;flex:none;max-width:48%">'+r[1]+'</span></div>';}).join('')+'</div>';}).join('')+'</div>';
+      swap(cc);
+    };
+    s._step(0);
+  })();
+
+  /* Hover text effects */
+  f.querySelectorAll('[data-letters]').forEach(function(el){var t=el.textContent;el.textContent='';t.split('').forEach(function(ch){if(ch===' '){el.appendChild(document.createTextNode(' '));return;}var sp=document.createElement('span');sp.className='dm-l';sp.textContent=ch;el.appendChild(sp);});});
+  f.querySelectorAll('[data-words]').forEach(function(el){var ws=el.textContent.split(' ');el.textContent='';ws.forEach(function(w,i){var sp=document.createElement('span');sp.className='dm-w';sp.textContent=w;el.appendChild(sp);if(i<ws.length-1)el.appendChild(document.createTextNode(' '));});});
+
+  /* Navigation */
+  var site=$('dmSite');
+  function measure(){var dd=site.scrollHeight-288;if(dd>0)site.style.setProperty('--dms',(-dd)+'px');}
+  window.addEventListener('load',measure);
+  function go(n){
+    if(n<0||n>=slides.length||n===idx||lock)return;
+    lock=true;var old=slides[idx],nw=slides[n];
+    old.classList.remove('dm-show');nw.classList.add('dm-on');nw.classList.add('dm-show');idx=n;measure();
+    setTimeout(function(){old.classList.remove('dm-on');lock=false;},750);
+  }
+  function move(dir){
+    if(lock)return;
+    var s=slides[idx];
+    if(s._step){var st=parseInt(s.dataset.step,10)+dir;if(st>=0&&st<parseInt(s.dataset.steps,10)){s._step(st);lock=true;setTimeout(function(){lock=false;},500);return;}}
+    go(idx+dir);
+  }
+  window.addEventListener('wheel',function(e){if(Math.abs(e.deltaY)>4)move(e.deltaY>0?1:-1);},{passive:true});
+  window.addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight'||e.key==='ArrowDown'||e.key===' '){e.preventDefault();move(1);}
+    if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();move(-1);}
+  });
+  var ty=null;
+  window.addEventListener('touchstart',function(e){ty=e.touches[0].clientY;},{passive:true});
+  window.addEventListener('touchend',function(e){if(ty===null)return;var dy=ty-e.changedTouches[0].clientY;ty=null;if(Math.abs(dy)>40)move(dy>0?1:-1);},{passive:true});
+  $('dmNext').addEventListener('click',function(){move(1);});
+  $('dmPrev').addEventListener('click',function(){move(-1);});
+  $('dmReplay').addEventListener('click',function(){var s=slides[idx];if(s._step)s._step(0);s.classList.remove('dm-on');void s.offsetWidth;s.classList.add('dm-on');});
+
+  slides[0].classList.add('dm-on');slides[0].classList.add('dm-show');measure();
+})();
+</script>
+</body>
+</html>
